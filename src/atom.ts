@@ -8,7 +8,10 @@ export function atom<Value>(initialValue: Value): Atom<Value> {
   return {
     key: ++number_key,
     value: initialValue,
-    out_date: false,
+    outdated: false,
     fresh: {},
+    bind: {
+      listener: new Set(),
+    },
   };
 }

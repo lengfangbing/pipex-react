@@ -1,16 +1,17 @@
 /** define atom type start */
-export type Read<Value> = (atom: Atom<Value>) => void;
-export type Write<Value> = (atom: Atom<Value>) => void;
-export type UpdateByFreshValue<Value> = (atom: Atom<Value>) => void;
+export type ListenerActionByFunc<Value> = (prevValue: Value) => Value;
+export type ListenerAction<Value> = Value | ListenerActionByFunc<Value>;
+export type Listener<Value> = (value: ListenerAction<Value>) => void;
 export type FreshValue<Value> = Partial<Pick<Atom<Value>, 'value'>>;
+export type BindValue<Value> = {
+  listener: Set<Listener<Value>>;
+};
 export interface Atom<Value> {
   key: Number;
   value: Value;
-  out_date: boolean;
+  outdated: boolean;
   fresh: FreshValue<Value>;
-  read?: Read<Value>;
-  write?: Write<Value>;
-  update_atom?: UpdateByFreshValue<Value>;
+  bind: BindValue<Value>;
   // @TODO add one attribute for pipe/core
 }
 /** ---------------- define atom type end ---------------- */
