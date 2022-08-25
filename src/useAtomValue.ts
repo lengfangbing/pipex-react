@@ -1,13 +1,13 @@
 import { Reducer, useEffect, useReducer } from 'react';
-import { Atom, Listener, ListenerAction, ListenerActionByFunc } from './type';
+import { Atom, Listener, ListenerActionByFunc } from './type';
 
-export default function useAtomValue<Value>(atom: Atom<Value>) {
+export default function useAtomValue<Value> (atom: Atom<Value>) {
   // create one reducer to bind atom listener
   const [state, dispatch] = useReducer<Reducer<Atom<Value>, Value>, Atom<Value>>(
     (prevState, freshValue) => {
       const freshState = prevState;
       freshState.value = freshValue;
-      return freshState;
+      return { ...freshState };
     },
     atom,
     (initialValue) => {
@@ -35,7 +35,7 @@ export default function useAtomValue<Value>(atom: Atom<Value>) {
     return () => {
       // unbind listener
       atom.bind.listener.delete(listenerAction);
-    }
+    };
   }, [atom]);
 
   return state.value;

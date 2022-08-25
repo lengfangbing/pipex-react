@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { Atom, Listener, ListenerActionByFunc } from './type';
 
-export function useSetAtom<Value>(atom: Atom<Value>): Listener<Value> {
+export default function useSetAtom<Value> (atom: Atom<Value>): Listener<Value> {
   const update: Listener<Value> = useCallback(value => {
     // check whether atom have listener
     if (atom.bind.listener.size === 0) {
